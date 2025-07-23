@@ -27,23 +27,23 @@ In future features:
 
 ## 🔧 Getting Started
 
-# Clone the repository
+### Clone the repository
 ```git clone https://github.com/m1keydev-tech/react-movie-app.git```
 
-# Navigate to the project folder
+### Navigate to the project folder
 ```cd react-movie-app ```
 
-# Install dependencies
+### Install dependencies
 ```npm install```        # or ```yarn install```
 
-# Create .env file and add your TMDB API token
+### Create .env file and add your TMDB API token
 ```echo "VITE_TMDB_TOKEN=your_api_key_here" > .env```
 
-# Start development server
+### Start development server
 ```npm run dev```    or ```yarn dev```
 
 
-# 🌐 API Reference
+## 🌐 API Reference
 
 Base URL: https://api.themoviedb.org/3/
 
