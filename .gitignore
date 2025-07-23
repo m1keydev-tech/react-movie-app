@@ -1,0 +1,24 @@
+# dependencies
+/node_modules
+
+# build
+/dist
+/.vite
+/yarn.lock
+
+
+# env
+.env
+
+
+# IDE
+.vscode
+.idea
+
+# OS
+.DS_Store
+Thumbs.db
+
+# logs & misc
+*.log
+*~
