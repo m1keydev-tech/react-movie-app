@@ -8,9 +8,9 @@ Init Projects with those features:
 - 👍🏻 Header with navigation
 - 👍🏻 Featured movie on homepage
 - 👍🏻 Media list component (popular/trending)
+- 👍🏻 Movie detail view
 
 In future features:
-- 🔨 Movie detail view
 - 🔨 Actor list view
 - 🔨 Related media suggestions
 - 🔨 Search functionality
