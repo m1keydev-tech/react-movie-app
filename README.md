@@ -9,10 +9,11 @@ Init Projects with those features:
 - 👍🏻 Featured movie on homepage
 - 👍🏻 Media list component (popular/trending)
 - 👍🏻 Movie detail view
+- 👍🏻 Actor list view
+- 👍🏻 Related media suggestions
 
 In future features:
-- 🔨 Actor list view
-- 🔨 Related media suggestions
+
 - 🔨 Search functionality
 - 🔨 TV show listing
 - 🔨 Image enhancements
