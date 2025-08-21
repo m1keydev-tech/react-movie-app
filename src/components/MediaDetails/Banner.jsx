@@ -2,9 +2,9 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import CircularProcessBar from "../CircularProcessBar";
 import { groupBy } from "lodash";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ImageComponent from "../Image";
 
 const Banner = ({ mediaDetail }) => {
-  console.log("props:", mediaDetail);
   const certification = (
     (mediaDetail.release_dates?.results || []).find(
       (result) => result.iso_3166_1 === "US",
@@ -20,17 +20,19 @@ const Banner = ({ mediaDetail }) => {
   // console.log(groupCrews);
 
   return (
-    <div className="relative overflow-hidden text-white">
-      <img
+    <div className="relative overflow-hidden text-white shadow-md shadow-slate-800">
+      <ImageComponent
         className="absolute inset-0 brightness-[.2]"
         src={`https://image.tmdb.org/t/p/original${mediaDetail.backdrop_path}`}
         alt=""
       />
       <div className="relative mx-auto flex max-w-screen-xl items-center gap-6 px-6 py-10 lg:gap-8">
         <div className="flex-1">
-          <img
+          <ImageComponent
             src={`https://image.tmdb.org/t/p/original${mediaDetail.poster_path}`}
             alt=""
+            width={600}
+            height={900}
           />
         </div>
         <div className="flex-[2] text-[1.2vw]">
@@ -52,7 +54,7 @@ const Banner = ({ mediaDetail }) => {
           <div className="mt-4 flex items-center gap-4">
             <div className="flex items-center gap-4">
               <CircularProcessBar
-                percent={Math.round(mediaDetail.vote_average * 10)}
+                percent={Math.round(mediaDetail.vote_average * 10 || 0)}
                 size={3.5}
                 strokeWidth={0.3}
                 strokeColor={"green"}

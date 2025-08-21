@@ -2,37 +2,49 @@
 import { useState, useEffect } from "react";
 import Movie from "./Movie";
 import PaginateIndicator from "./PaginateIndicator";
+import useFetch from "@/hooks/useFetch";
 //
 const FeatureMovie = () => {
-  const [movies, setMovies] = useState([]);
+  // const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeMovieID, setActiveMovieID] = useState();
 
   const TMDB_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN;
 
+  const { data: popularMovies } = useFetch({ url: `/movie/popular` });
+
+  const movies = (popularMovies.results || []).slice(0, 4);
   useEffect(() => {
-    fetch("https://api.themoviedb.org/3/movie/popular", {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        // Token for authentication
-        Authorization: `Bearer ${TMDB_TOKEN}`,
-      },
-    })
-      .then(async (res) => {
-        const data = await res.json();
-        // console.log({ data });
-        const popularMovies = data.results.slice(10, 14);
-        setMovies(popularMovies);
-        console.log(popularMovies);
-        setActiveMovieID(popularMovies[0].id);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching movies:", err);
-        setLoading(false);
-      });
-  }, []);
+    if (movies[0]?.id) {
+      setActiveMovieID(movies[0].id);
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(movies)]);
+
+  // useEffect(() => {
+  //   fetch("https://api.themoviedb.org/3/movie/popular", {
+  //     method: "GET",
+  //     headers: {
+  //       accept: "application/json",
+  //       // Token for authentication
+  //       Authorization: `Bearer ${TMDB_TOKEN}`,
+  //     },
+  //   })
+  //     .then(async (res) => {
+  //       const data = await res.json();
+  //       // console.log({ data });
+  //       const popularMovies = data.results.slice(10, 14);
+  //       setMovies(popularMovies);
+  //       // console.log(popularMovies);
+  //       setActiveMovieID(popularMovies[0].id);
+  //       setLoading(false);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Error fetching movies:", err);
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   useEffect(() => {
     if (movies.length === 0) return;
@@ -57,7 +69,7 @@ const FeatureMovie = () => {
           <img
             src="/public/img/icons/loading.gif"
             alt="Loading..."
-            className="h-150 w-150 object-contain"
+            className="h-full w-full object-cover"
           />
         </div>
       ) : (

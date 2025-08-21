@@ -1,37 +1,43 @@
-import { useEffect, useState } from "react";
-import MediaCard from "./MediaCard";
+import useFetch from "@/hooks/useFetch";
+import MediaCard from "@components/MediaCard";
+import { useState } from "react";
 
 const MediaList = ({ title, tabs }) => {
-  const [mediaList, setMediaList] = useState([]);
+  // const [mediaList, setMediaList] = useState([]);
   const [activeTabID, setActiveTabID] = useState(tabs[0]?.id);
 
   const TMDB_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN;
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      // Token for authentication
-      Authorization: `Bearer ${TMDB_TOKEN}`,
-    },
-  };
+  // const options = {
+  //   method: "GET",
+  //   headers: {
+  //     accept: "application/json",
+  //     // Token for authentication
+  //     Authorization: `Bearer ${TMDB_TOKEN}`,
+  //   },
+  // };
 
-  useEffect(() => {
-    const URLFetchingTrending = tabs.find((tab) => tab.id === activeTabID)?.url;
-    if (URLFetchingTrending) {
-      fetch(URLFetchingTrending, options)
-        .then(async (res) => {
-          const data = await res.json();
-          // console.log({ data });
-          const trendingMediaList = data.results.slice(0, 12);
-          console.log("trendingMediaList", trendingMediaList);
-          setMediaList(trendingMediaList);
-        })
-        .catch((err) => {
-          console.error("Error fetching movies:", err);
-        });
-    }
-  }, [tabs, activeTabID]);
+  const URLFetchingTrending = tabs.find((tab) => tab.id === activeTabID)?.url;
+  const { data } = useFetch({ url: URLFetchingTrending });
+
+  const mediaList = (data.results || []).slice(0, 12);
+
+  // useEffect(() => {
+  //   const URLFetchingTrending = tabs.find((tab) => tab.id === activeTabID)?.url;
+  //   if (URLFetchingTrending) {
+  //     fetch(URLFetchingTrending, options)
+  //       .then(async (res) => {
+  //         const data = await res.json();
+  //         // console.log({ data });
+  //         const trendingMediaList = data.results.slice(0, 12);
+  //         // console.log("trendingMediaList", trendingMediaList);
+  //         setMediaList(trendingMediaList);
+  //       })
+  //       .catch((err) => {
+  //         console.error("Error fetching movies:", err);
+  //       });
+  //   }
+  // }, [tabs, activeTabID]);
 
   return (
     <div className="bg-black px-8 py-10 text-[1.2vw] text-white">
