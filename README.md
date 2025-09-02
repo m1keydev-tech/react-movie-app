@@ -11,13 +11,14 @@ Init Projects with those features:
 - 👍🏻 Movie detail view
 - 👍🏻 Actor list view
 - 👍🏻 Related media suggestions
+- 👍🏻 Image enhancements
 - 👍🏻 TV Show Detail View
 - 👍🏻 TV show listing
 
 In future features:
 - 🔨 People Page
 - 🔨 Search functionality
-- 🔨 Image enhancements
+
 
 
 ## 🛠 Tech Stack
