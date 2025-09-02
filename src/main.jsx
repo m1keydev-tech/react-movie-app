@@ -3,9 +3,11 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Homepage from "./pages/Homepage.jsx";
 import MovieDetail from "./pages/MovieDetail.jsx";
 import RootLayout from "./pages/RootLayout.jsx";
+import TVShowDetail from "./pages/TVShowDetail";
+import Homepage from "./pages/Homepage";
+import ModalProvider from "./context/ModalProvider";
 
 const router = createBrowserRouter([
   {
@@ -19,12 +21,18 @@ const router = createBrowserRouter([
         path: "/movie/:id",
         element: <MovieDetail />,
       },
+      {
+        path: "/tv/:id",
+        element: <TVShowDetail />,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}></RouterProvider>
+    <ModalProvider>
+      <RouterProvider router={router}></RouterProvider>
+    </ModalProvider>
   </StrictMode>,
 );

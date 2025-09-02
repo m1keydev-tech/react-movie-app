@@ -4,7 +4,7 @@ import ActorInfo from "./ActorInfo";
 const ActorList = ({ actors = [] }) => {
   const [isShowMore, setIsShowMore] = useState(false);
 
-  const currentActors = isShowMore ? actors.slice(0, 32) : actors.slice(0, 4);
+  const currentActors = isShowMore ? actors.slice(0, 100) : actors.slice(0, 4);
 
   return (
     <>
@@ -18,6 +18,7 @@ const ActorList = ({ actors = [] }) => {
               profilePath={actor.profile_path}
               name={actor.name}
               character={actor.character}
+              episodeCount={actor.total_episode_count}
             />
           ))}
           {/* <ActorInfo />

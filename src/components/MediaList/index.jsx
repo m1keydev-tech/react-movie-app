@@ -4,9 +4,12 @@ import { useState } from "react";
 
 const MediaList = ({ title, tabs }) => {
   // const [mediaList, setMediaList] = useState([]);
-  const [activeTabID, setActiveTabID] = useState(tabs[0]?.id);
+  const storageKey = `activeTabID-${title}`;
+  const [activeTabID, setActiveTabID] = useState(
+    () => sessionStorage.getItem(storageKey) || tabs[0]?.id,
+  );
 
-  const TMDB_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN;
+  // const TMDB_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN;
 
   // const options = {
   //   method: "GET",
@@ -16,6 +19,11 @@ const MediaList = ({ title, tabs }) => {
   //     Authorization: `Bearer ${TMDB_TOKEN}`,
   //   },
   // };
+
+  const handleClickedTab = (tabID) => {
+    setActiveTabID(tabID);
+    sessionStorage.setItem(storageKey, tabID);
+  };
 
   const URLFetchingTrending = tabs.find((tab) => tab.id === activeTabID)?.url;
   const { data } = useFetch({ url: URLFetchingTrending });
@@ -49,7 +57,7 @@ const MediaList = ({ title, tabs }) => {
               key={tab.id}
               className={`cursor-pointer rounded px-2 py-1 ${tab.id === activeTabID ? "bg-white text-black" : ""}`}
               onClick={() => {
-                setActiveTabID(tab.id);
+                handleClickedTab(tab.id);
               }}
             >
               {tab.name}

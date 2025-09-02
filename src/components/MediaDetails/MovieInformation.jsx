@@ -13,6 +13,7 @@ const MovieInformation = ({ movieInfo }) => {
           <p className="font-bold">Original Country</p>
           {(movieInfo.origin_country || []).map((countryCode) => (
             <img
+              key={movieInfo.id}
               src={`https://flagcdn.com/32x24/${countryCode.toLowerCase()}.png`}
               alt=""
               className="mt-1 mr-1 w-[1.4vw]"
@@ -29,9 +30,9 @@ const MovieInformation = ({ movieInfo }) => {
         </div>
         <div className="mb-4">
           <p className="font-bold">Revenue</p>
-          <p className="">
+          <div className="">
             <p className="">{currencyFormat(movieInfo.revenue, "USD")}</p>
-          </p>
+          </div>
         </div>
       </div>
     </>

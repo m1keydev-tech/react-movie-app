@@ -1,11 +1,14 @@
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ImageComponent from "../Image";
+import { useModalContext } from "@/context/ModalProvider";
+import { Link } from "react-router-dom";
 
 const Movie = (props) => {
-  const {
-    data: { backdrop_path, title, overview, release_date },
-  } = props;
+  const { id, backdrop_path, title, overview, release_date, trailerVideoKey } =
+    props.data;
+
+  const { openPopup } = useModalContext();
 
   return (
     <>
@@ -31,13 +34,28 @@ const Movie = (props) => {
           </div>
         </div>
         <div className="mt-8 flex items-center gap-4">
-          <button className="flex cursor-pointer items-center gap-2 rounded bg-red-600 px-4 py-2 text-[10px] text-white hover:bg-red-700 lg:text-lg">
+          <button
+            className="flex cursor-pointer items-center gap-2 rounded bg-red-600 px-4 py-2 text-[10px] text-white hover:bg-red-700 lg:text-lg"
+            onClick={() => {
+              openPopup(
+                <iframe
+                  title="Trailer"
+                  className="aspect-video w-[50vw]"
+                  src={`https://www.youtube.com/embed/${trailerVideoKey}?autoplay=1&mute=0&rel=0&modestbranding=1`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />,
+              );
+            }}
+          >
             <FontAwesomeIcon icon={faPlay} />
             Trailer
           </button>
-          <button className="flex cursor-pointer items-center gap-2 rounded bg-gray-600 px-4 py-2 text-[10px] text-white hover:bg-gray-700 lg:text-lg">
-            Information
-          </button>
+          <Link to={`/movie/${id}`}>
+            <button className="flex cursor-pointer items-center gap-2 rounded bg-gray-600 px-4 py-2 text-[10px] text-white hover:bg-gray-700 lg:text-lg">
+              Information
+            </button>
+          </Link>
         </div>
       </div>
     </>
