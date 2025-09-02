@@ -4,9 +4,10 @@ import Loading from "@components/Loading";
 import Banner from "@components/MediaDetails/Banner";
 import ActorList from "@components/MediaDetails/ActorList";
 import RelatedMediaList from "@/components/MediaDetails/RelatedMediaList";
-import MovieInformation from "@/components/MediaDetails/MovieInformation";
 import useFetch from "@/hooks/useFetch";
-const MovieDetail = () => {
+import TVShowInformation from "@/components/MediaDetails/TVShowInformation";
+import SeasonList from "@/components/MediaDetails/SeasonList";
+const TVShowDetail = () => {
   const TMDB_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN;
   const { id } = useParams();
 
@@ -14,7 +15,7 @@ const MovieDetail = () => {
   // const [isLoading, setIsLoading] = useState(false);
   // const [isRelatedMovieListLoading, setIsRelatedMovieListLoading] =
   //   useState(false);
-  // const [relatedMovie, setRelatedMovie] = useState([]);
+  // const [relatedTVShow, setRelatedMovie] = useState([]);
   // const options = {
   //   method: "GET",
   //   headers: {
@@ -24,18 +25,18 @@ const MovieDetail = () => {
   //   },
   // };
 
-  const { data: movieDetail, isLoading } = useFetch({
-    url: `/movie/${id}?append_to_response=release_dates,credits,videos`,
+  const { data: tvDetail, isLoading } = useFetch({
+    url: `/tv/${id}?append_to_response=content_ratings,aggregate_credits,videos`,
   });
 
   const {
     data: recommendationsResponse,
-    isLoading: isRelatedMovieListLoading,
+    isLoading: isRelatedTVShowListLoading,
   } = useFetch({
-    url: `/movie/${id}/recommendations`,
+    url: `/tv/${id}/recommendations`,
   });
 
-  const relatedMovie = recommendationsResponse.results || [];
+  const relatedTVShow = recommendationsResponse.results || [];
 
   // useEffect(() => {
   //   setIsLoading(true);
@@ -73,15 +74,19 @@ const MovieDetail = () => {
   //     });
   // }, [id]);
 
-  const certification = (
-    (movieDetail.release_dates?.results || []).find(
-      (result) => result.iso_3166_1 === "US",
-    )?.release_dates || []
-  ).find((release_date) => release_date.certification)?.certification;
+  const certification = (tvDetail.content_ratings?.results || []).find(
+    (result) => result.iso_3166_1 === "US",
+  )?.rating;
 
-  const crews = (movieDetail.credits?.crew || [])
-    .filter((crew) => ["Director", "Producer", "Writer"].includes(crew.job))
-    .map((crew) => ({ id: crew.id, name: crew.name, job: crew.job }));
+  const crews = (tvDetail.aggregate_credits?.crew || [])
+    .filter((crew) => {
+      const jobs = (crew.jobs || []).map((j) => j.job);
+      return ["Director", "Producer", "Writer"].some((job) =>
+        jobs.find((j) => j === job),
+      );
+    })
+    .splice(0, 5)
+    .map((crew) => ({ id: crew.id, name: crew.name, job: crew.jobs[0].job }));
 
   if (isLoading) {
     return <Loading />;
@@ -90,17 +95,17 @@ const MovieDetail = () => {
   return (
     <>
       <Banner
-        overview={movieDetail.overview}
-        title={movieDetail.title}
-        posterPath={movieDetail.poster_path}
-        backdropPath={movieDetail.backdrop_path}
-        releaseDate={movieDetail.release_date}
-        genres={movieDetail.genres}
-        point={movieDetail.vote_average}
+        title={tvDetail.name}
+        posterPath={tvDetail.poster_path}
+        backdropPath={tvDetail.backdrop_path}
+        releaseDate={tvDetail.first_air_date}
+        genres={tvDetail.genres}
+        overview={tvDetail.overview}
+        point={tvDetail.vote_average}
         certification={certification}
         crews={crews}
         trailerVideoKey={
-          (movieDetail.videos?.results || []).find(
+          (tvDetail.videos?.results || []).find(
             (video) => video.type === "Trailer",
           )?.key
         }
@@ -108,18 +113,25 @@ const MovieDetail = () => {
       <div className="bg-black text-[1.2vw] text-white">
         <div className="mx-auto flex max-w-screen-xl gap-6 px-6 py-10 sm:gap-8">
           <div className="flex-[2]">
-            <ActorList actors={movieDetail.credits?.cast || []} />
+            <ActorList
+              actors={(tvDetail.aggregate_credits?.cast || []).map((cast) => ({
+                ...cast,
+                character: cast.roles[0]?.character,
+                episodeCount: cast.roles[0]?.episode_count,
+              }))}
+            />
+            <SeasonList seasons={[...(tvDetail.seasons || [])].reverse()} />
             <RelatedMediaList
-              mediaList={relatedMovie}
-              isLoading={isRelatedMovieListLoading}
+              mediaList={relatedTVShow}
+              isLoading={isRelatedTVShowListLoading}
             />
           </div>
           <div className="flex-1">
-            <MovieInformation movieInfo={movieDetail} />
+            <TVShowInformation tvInfo={tvDetail} />
           </div>
         </div>
       </div>
     </>
   );
 };
-export default MovieDetail;
+export default TVShowDetail;

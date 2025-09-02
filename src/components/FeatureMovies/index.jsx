@@ -9,9 +9,24 @@ const FeatureMovie = () => {
   const [loading, setLoading] = useState(true);
   const [activeMovieID, setActiveMovieID] = useState();
 
-  const TMDB_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN;
+  // const TMDB_TOKEN = import.meta.env.VITE_TMDB_BEARER_TOKEN;
 
-  const { data: popularMovies } = useFetch({ url: `/movie/popular` });
+  const { data: popularMovies } = useFetch({
+    url: `/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc`,
+  });
+
+  const { data: videoResponse } = useFetch(
+    {
+      url: `/movie/${activeMovieID}/videos`,
+    },
+    { enabled: !!activeMovieID },
+  ); // co du lieu thi enabled = true , khong co du lieu thi la false
+
+  // const trailerKey = videoResponse?.results?.find(
+  //   (video) => video.type === "Trailer" && video.site === "YouTube",
+  // )?.key;
+
+  // console.log("Trailer key:", trailerKey);
 
   const movies = (popularMovies.results || []).slice(0, 4);
   useEffect(() => {
@@ -81,7 +96,22 @@ const FeatureMovie = () => {
                 key={movie.id}
                 className="animate-fade-in transition-opacity duration-700"
               >
-                <Movie data={movie} />
+                <Movie
+                  key={movie.id}
+                  data={{
+                    ...movie,
+                    trailerVideoKey: (videoResponse.results || []).find(
+                      (video) =>
+                        video.type === "Trailer" && video.site === "YouTube",
+                    )?.key,
+                  }}
+                  // trailerVideoKey={
+                  //   (videoResponse.results || []).find(
+                  //     (video) =>
+                  //       video.type === "Trailer" && video.site === "YouTube",
+                  //   )?.key
+                  // }
+                />
               </div>
             ))}
         </div>
