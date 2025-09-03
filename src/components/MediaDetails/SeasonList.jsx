@@ -9,7 +9,7 @@ const SeasonList = ({ seasons = [] }) => {
     ? seasons.slice(0, 100)
     : seasons.slice(0, 3);
 
-  const showButtonMore = currentSeasons.length > 3;
+  const showButtonMore = currentSeasons.length >= 3;
 
   return (
     <>
@@ -19,11 +19,14 @@ const SeasonList = ({ seasons = [] }) => {
           {currentSeasons.map((season) => (
             <div
               key={season.id}
-              className="flex gap-4 rounded-lg border border-slate-200 p-3 shadow-md"
+              className="flex items-center gap-4 rounded-lg border border-slate-200 p-3 shadow-md"
             >
               <ImageComponent
-                className={"w-1/4 rounded-lg object-cover"}
-                src={`https://image.tmdb.org/t/p/original${season.poster_path}`}
+                className={"h-3/4 w-1/4 rounded-lg object-cover"}
+                src={
+                  season.poster_path &&
+                  `https://image.tmdb.org/t/p/original${season.poster_path}`
+                }
               />
 
               <div className="space-y-1">

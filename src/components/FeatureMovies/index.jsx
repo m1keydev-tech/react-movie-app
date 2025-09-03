@@ -28,7 +28,7 @@ const FeatureMovie = () => {
 
   // console.log("Trailer key:", trailerKey);
 
-  const movies = (popularMovies.results || []).slice(0, 4);
+  const movies = (popularMovies.results || []).slice(8, 12);
   useEffect(() => {
     if (movies[0]?.id) {
       setActiveMovieID(movies[0].id);
