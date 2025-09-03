@@ -15,7 +15,7 @@ const MediaCard = ({ id, poster, title, releaseDate, point, mediaType }) => {
           </p>
         )}
         <ImageComponent
-          src={`https://image.tmdb.org/t/p/original${poster}`}
+          src={poster && `https://image.tmdb.org/t/p/original${poster}`}
           width={200}
           height={300}
           alt="media-card"
