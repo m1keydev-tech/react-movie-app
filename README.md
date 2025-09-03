@@ -14,9 +14,10 @@ Init Projects with those features:
 - 👍🏻 Image enhancements
 - 👍🏻 TV Show Detail View
 - 👍🏻 TV show listing
+- 👍🏻 People Page
 
 In future features:
-- 🔨 People Page
+
 - 🔨 Search functionality
 
 
