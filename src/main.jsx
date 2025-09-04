@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import MovieDetail from "./pages/MovieDetail.jsx";
 import RootLayout from "./pages/RootLayout.jsx";
 import ModalProvider from "./context/ModalProvider";
+import SearchPage from "./pages/SearchPage";
 // import Homepage from "./pages/Homepage";
 // import TVShowDetail from "./pages/TVShowDetail";
 // import PeoplePage from "./pages/PeoplePage";
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
           );
           return res;
         },
+      },
+      {
+        path: "/search",
+        element: <SearchPage />,
       },
     ],
   },
