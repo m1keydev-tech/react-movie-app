@@ -15,12 +15,11 @@ Init Projects with those features:
 - 👍🏻 TV Show Detail View
 - 👍🏻 TV show listing
 - 👍🏻 People Page
+- 👍🏻 Search functionality
 
 In future features:
 
-- 🔨 Search functionality
-
-
+- Status: Completed ✅
 
 ## 🛠 Tech Stack
 
