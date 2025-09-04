@@ -52,6 +52,7 @@ const PeoplePage = () => {
               <RelatedMediaList
                 title={"Known for"}
                 mediaList={peopleInfo.combined_credits?.cast || []}
+                className="mt-6"
               />
             </div>
           </div>
